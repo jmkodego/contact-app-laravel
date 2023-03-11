@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ContactNoteController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\WelcomeController;
@@ -28,8 +30,13 @@ Route::controller(ContactController::class)->name('contacts.')->group(function (
 });
 
 Route::resource('/companies', CompanyController::class);
-
 Route::resources([
     '/tags' => TagController::class,
     '/tasks' => TaskController::class
 ]);
+
+Route::resource('/contacts.notes', ContactNoteController::class)->shallow();
+Route::resource('/activities', ActivityController::class)->parameter(
+    'activities',
+    'id'
+);
