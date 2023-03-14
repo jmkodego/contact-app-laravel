@@ -19,18 +19,24 @@ class ContactSeeder extends Seeder
 
         $companies = Company::all();
         $faker = Faker::create();
+        $contacts = [];
 
         foreach ($companies as $company) {
-            $contact = [
-                'first_name' => $faker->firstName(),
-                'last_name' => $faker->lastName(),
-                'phone' => $faker->phoneNumber(),
-                'email' => $faker->email(),
-                'address' => $faker->address(),
-                'company_id' => $company->id,
-            ];
+            foreach (range(1, 5) as $index) {
+                $contact = [
+                    'first_name' => $faker->firstName(),
+                    'last_name' => $faker->lastName(),
+                    'phone' => $faker->phoneNumber(),
+                    'email' => $faker->email(),
+                    'address' => $faker->address(),
+                    'company_id' => $company->id,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
 
-            Contact::create($contact);
+                $contacts[] = $contact;
+            }
         }
+        Contact::insert($contacts);
     }
 }
