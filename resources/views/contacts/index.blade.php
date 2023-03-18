@@ -35,7 +35,7 @@
                                             'index' => $index,
                                         ])
                                     @empty
-                                        @include('contacts.empty')
+                                        @include('contacts._empty')
                                     @endforelse
                                     {{-- @each('contacts._contact', $contacts, 'contact', 'contacts._empty') --}}
                                 </tbody>

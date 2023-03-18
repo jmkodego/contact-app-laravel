@@ -18,18 +18,35 @@ class ContactController extends Controller
     {
 
         $companies = $this->company->pluck();
-        $contacts = Contact::latest()->paginate(10);
+        $contacts = Contact::latest()->where(function ($query) {
+            if ($companyId = request()->query("company_id")) {
+                $query->where("company_id", $companyId);
+            }
+        })->paginate(10);
         return view('contacts.index', compact('contacts', 'companies'));
     }
 
     public function create()
     {
-        return view('contacts.create');
+        $companies = $this->company->pluck();
+        return view('contacts.create', compact('companies'));
     }
 
     public function show($id)
     {
         $contact = Contact::findOrFail($id);
         return view('contacts.show')->with('contact', $contact);
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'first_name' => 'required|string|max:50',
+            'last_name' => 'required|string|max:50',
+            'email' => 'required|email',
+            'phone' => 'nullable',
+            'address' => 'nullable',
+            'company_id' => 'required|exists:companies',
+        ]);
     }
 }
