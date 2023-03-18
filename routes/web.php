@@ -22,22 +22,12 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', WelcomeController::class);
-
-Route::controller(ContactController::class)->name('contacts.')->group(function () {
-    Route::get('/contacts', 'index')->name('index');
-    Route::post('/contacts', 'store')->name('store');
-    Route::get('/contacts/create', 'create')->name('create');
-    Route::get('/contacts/{id}', 'show')->name('show');
-    Route::get('/contacts/{id}/edit', 'edit')->name('edit');
-    Route::put('/contacts/{id}', 'update')->name('update');
-});
-
+Route::resource('/contacts', ContactController::class);
 Route::resource('/companies', CompanyController::class);
 Route::resources([
     '/tags' => TagController::class,
     '/tasks' => TaskController::class
 ]);
-
 Route::resource('/contacts.notes', ContactNoteController::class)->shallow();
 Route::resource('/activities', ActivityController::class)->parameter(
     'activities',
