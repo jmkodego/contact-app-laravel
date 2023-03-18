@@ -43,10 +43,13 @@ class ContactController extends Controller
         $request->validate([
             'first_name' => 'required|string|max:50',
             'last_name' => 'required|string|max:50',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:contacts,email',
             'phone' => 'nullable',
             'address' => 'nullable',
-            'company_id' => 'required|exists:companies',
+            'company_id' => 'required|exists:companies,id',
         ]);
+
+        Contact::create($request->all());
+        return redirect()->route('contacts.index')->with('message', 'Contact created successfully.');
     }
 }
